@@ -3,11 +3,11 @@
  * @Date: 2020-03-28 22:01:28
  * @GitHub: https://github.com/TserHub
  * @LastEditors: Tser
- * @LastEditTime: 2020-04-12 16:54:34
+ * @LastEditTime: 2020-04-12 17:33:35
  */
 
 // 身份证号码验证
-export const isIdCardNumber = (idCard) => {
+const isIdCardNumber = (idCard) => {
   if (!idCard) {
     return false;
   }
@@ -37,7 +37,7 @@ export const isIdCardNumber = (idCard) => {
 };
 
 // 地图坐标转换
-export const GPS = {
+const GPS = {
   PI: 3.14159265358979324,
   x_pi: (3.14159265358979324 * 3000.0) / 180.0,
   delta: function (lat, lon) {
@@ -235,36 +235,36 @@ export const GPS = {
   },
 };
 
-export const transformDateTime = (t, bool = true) => {
+const transformDateTime = (t, bool = true) => {
   // 字符串类型日期转换为moment类型，moment类型的日期，无需转换
   const time = typeof t === 'string' ? moment(new Date(t)) : t;
   return time.format(bool ? 'YYYY-MM-DD kk:mm:ss' : 'YYYY-MM-DD');
 };
 
 // 校验 min-max 整数
-export const isIntValue = (val, { min, max }) => {
+const isIntValue = (val, { min, max }) => {
   const regex = new RegExp(`^[0-9]{${min},${max}}$`);
   return regex.test(val);
 };
 // 校验小数
-export const isDecimalValue = (val) => {
+const isDecimalValue = (val) => {
   return /^\d+(\.\d+)?$/.test(val);
 };
 // 校验数值
-export const isNumericValue = (val) => {
+const isNumericValue = (val) => {
   return /^[+-]?\d+(\.\d+)?$/.test(val);
 };
 // 校验绝对值区间
-export const isAbsRangeValue = (val, { min, max }) => {
+const isAbsRangeValue = (val, { min, max }) => {
   const value = Math.abs(val);
   return min <= value && value <= max;
 };
 // 校验 0 值
-export const isZeroValue = (val) => {
+const isZeroValue = (val) => {
   return Number(val) === 0;
 };
 
-export default {
+module.exports = {
   isIdCardNumber,
   GPS,
   transformDateTime,
