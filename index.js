@@ -3,7 +3,7 @@
  * @Date: 2020-03-28 22:01:28
  * @GitHub: https://github.com/TserHub
  * @LastEditors: Tser
- * @LastEditTime: 2020-04-04 17:00:37
+ * @LastEditTime: 2020-04-12 16:54:34
  */
 
 // 身份证号码验证
@@ -14,38 +14,33 @@ export const isIdCardNumber = (idCard) => {
   idCard = idCard.trim();
   // 18位身份证号码的正则表达式
   const regIdCard = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$/;
-  // 如果通过该验证，说明身份证格式正确，但准确性还需计算
-  if (regIdCard.test(idCard)) {
-    const idCardWi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; // 将前17位加权因子保存在数组里
-    const idCardY = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2]; // 这是除以11后，可能产生的11位余数、验证码，也保存成数组
-    let idCardWiSum = 0; // 用来保存前17位各自乖以加权因子后的总和
-    for (let i = 0; i < 17; i++) {
-      idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
-    }
-
-    const idCardMod = idCardWiSum % 11; // 计算出校验码所在数组的位置
-    const idCardLast = idCard.substring(17); // 得到最后一位身份证号码
-
-    // 如果等于2，则说明校验码是10，身份证号码最后一位应该是X
-    if (idCardMod === 2) {
-      if (idCardLast === 'X' || idCardLast === 'x') {
-        return true;
-      }
-    } else {
-      // 用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
-      if (idCardLast === idCardY[idCardMod]) {
-        return true;
-      }
-    }
+  if (!regIdCard.test(idCard)) {
+    return false;
   }
-  return false;
+  // 如果通过该验证，说明身份证格式正确，但准确性还需计算
+  const idCardWi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; // 将前17位加权因子保存在数组里
+  const idCardY = [1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2]; // 这是除以11后，可能产生的11位余数、验证码，也保存成数组
+  let idCardWiSum = 0; // 用来保存前17位各自乖以加权因子后的总和
+  for (let i = 0; i < 17; i++) {
+    idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
+  }
+  const idCardMod = idCardWiSum % 11; // 计算出校验码所在数组的位置
+  const idCardLast = idCard.substring(17); // 得到最后一位身份证号码
+  switch (idCardMod) {
+    case 2:
+      // 如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+      return idCardLast === 'X' || idCardLast === 'x';
+    default:
+      // 用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+      return idCardLast === idCardY[idCardMod];
+  }
 };
 
 // 地图坐标转换
 export const GPS = {
   PI: 3.14159265358979324,
   x_pi: (3.14159265358979324 * 3000.0) / 180.0,
-  delta: function(lat, lon) {
+  delta: function (lat, lon) {
     // Krasovsky 1940
     //
     // a = 6378245.0, 1/f = 298.3
@@ -65,25 +60,25 @@ export const GPS = {
   },
 
   //WGS-84 to GCJ-02 GPS转高德
-  gcj_encrypt: function(wgsLat, wgsLon) {
+  gcj_encrypt: function (wgsLat, wgsLon) {
     if (this.outOfChina(wgsLat, wgsLon)) return { lat: wgsLat, lon: wgsLon };
 
     var d = this.delta(wgsLat, wgsLon);
     //      return {'lat' : wgsLat + d.lat,'lon' : wgsLon + d.lon};
     return {
       lat: parseFloat(wgsLat) + parseFloat(d.lat),
-      lon: parseFloat(wgsLon) + parseFloat(d.lon)
+      lon: parseFloat(wgsLon) + parseFloat(d.lon),
     };
   },
   //GCJ-02 to WGS-84 高德转GPS
-  gcj_decrypt: function(gcjLat, gcjLon) {
+  gcj_decrypt: function (gcjLat, gcjLon) {
     if (this.outOfChina(gcjLat, gcjLon)) return { lat: gcjLat, lon: gcjLon };
 
     var d = this.delta(gcjLat, gcjLon);
     return { lat: gcjLat - d.lat, lon: gcjLon - d.lon };
   },
   //GCJ-02 to WGS-84 exactly
-  gcj_decrypt_exact: function(gcjLat, gcjLon) {
+  gcj_decrypt_exact: function (gcjLat, gcjLon) {
     var initDelta = 0.01;
     var threshold = 0.000000001;
     var dLat = initDelta,
@@ -114,7 +109,7 @@ export const GPS = {
     return { lat: wgsLat, lon: wgsLon };
   },
   //GCJ-02 to BD-09 高德转百度
-  bd_encrypt: function(gcjLat, gcjLon) {
+  bd_encrypt: function (gcjLat, gcjLon) {
     var x = gcjLon,
       y = gcjLat;
     var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * this.x_pi);
@@ -124,7 +119,7 @@ export const GPS = {
     return { lat: bdLat, lon: bdLon };
   },
   //BD-09 to GCJ-02 百度转高德
-  bd_decrypt: function(bdLat, bdLon) {
+  bd_decrypt: function (bdLat, bdLon) {
     var x = bdLon - 0.0065,
       y = bdLat - 0.006;
     var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * this.x_pi);
@@ -135,7 +130,7 @@ export const GPS = {
   },
   //WGS-84 to Web mercator
   //mercatorLat -> y mercatorLon -> x
-  mercator_encrypt: function(wgsLat, wgsLon) {
+  mercator_encrypt: function (wgsLat, wgsLon) {
     var x = (wgsLon * 20037508.34) / 180;
     var y =
       Math.log(Math.tan(((90 + wgsLat) * this.PI) / 360)) / (this.PI / 180);
@@ -152,7 +147,7 @@ export const GPS = {
   },
   // Web mercator to WGS-84
   // mercatorLat -> y mercatorLon -> x
-  mercator_decrypt: function(mercatorLat, mercatorLon) {
+  mercator_decrypt: function (mercatorLat, mercatorLon) {
     var x = (mercatorLon / 20037508.34) * 180;
     var y = (mercatorLat / 20037508.34) * 180;
     y =
@@ -171,7 +166,7 @@ export const GPS = {
      //*/
   },
   // two point's distance
-  distance: function(latA, lonA, latB, lonB) {
+  distance: function (latA, lonA, latB, lonB) {
     var earthR = 6371000;
     var x =
       Math.cos((latA * this.PI) / 180) *
@@ -185,12 +180,12 @@ export const GPS = {
     var distance = alpha * earthR;
     return distance;
   },
-  outOfChina: function(lat, lon) {
+  outOfChina: function (lat, lon) {
     if (lon < 72.004 || lon > 137.8347) return true;
     if (lat < 0.8293 || lat > 55.8271) return true;
     return false;
   },
-  transformLat: function(x, y) {
+  transformLat: function (x, y) {
     var ret =
       -100.0 +
       2.0 * x +
@@ -214,7 +209,7 @@ export const GPS = {
       3.0;
     return ret;
   },
-  transformLon: function(x, y) {
+  transformLon: function (x, y) {
     var ret =
       300.0 +
       x +
@@ -237,7 +232,7 @@ export const GPS = {
         2.0) /
       3.0;
     return ret;
-  }
+  },
 };
 
 export const transformDateTime = (t, bool = true) => {
@@ -277,5 +272,5 @@ export default {
   isDecimalValue,
   isNumericValue,
   isAbsRangeValue,
-  isZeroValue
+  isZeroValue,
 };
