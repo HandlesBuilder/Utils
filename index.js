@@ -3,7 +3,7 @@
  * @Date: 2020-03-28 22:01:28
  * @GitHub: https://github.com/TserHub
  * @LastEditors: Tser
- * @LastEditTime: 2020-04-12 17:33:35
+ * @LastEditTime: 2020-04-12 17:37:17
  */
 
 // 身份证号码验证
@@ -246,19 +246,23 @@ const isIntValue = (val, { min, max }) => {
   const regex = new RegExp(`^[0-9]{${min},${max}}$`);
   return regex.test(val);
 };
+
 // 校验小数
 const isDecimalValue = (val) => {
   return /^\d+(\.\d+)?$/.test(val);
 };
+
 // 校验数值
 const isNumericValue = (val) => {
   return /^[+-]?\d+(\.\d+)?$/.test(val);
 };
+
 // 校验绝对值区间
 const isAbsRangeValue = (val, { min, max }) => {
   const value = Math.abs(val);
   return min <= value && value <= max;
 };
+
 // 校验 0 值
 const isZeroValue = (val) => {
   return Number(val) === 0;
