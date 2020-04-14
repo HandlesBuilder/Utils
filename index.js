@@ -3,12 +3,12 @@
  * @Date: 2020-03-28 22:01:28
  * @GitHub: https://github.com/TserHub
  * @LastEditors: qinWenMeng
- * @LastEditTime: 2020-04-14 12:58:37
+ * @LastEditTime: 2020-04-14 13:35:55
  */
 import moment from 'moment';
 
 // 身份证号码验证
-const isIdCardNumber = (idCard) => {
+export const isIdCardNumber = (idCard) => {
   if (!idCard) {
     return false;
   }
@@ -38,7 +38,7 @@ const isIdCardNumber = (idCard) => {
 };
 
 // 地图坐标转换
-const GPS = {
+export const GPS = {
   PI: 3.14159265358979324,
   x_pi: (3.14159265358979324 * 3000.0) / 180.0,
   delta: function (lat, lon) {
@@ -236,12 +236,12 @@ const GPS = {
   },
 };
 
-const transformDateTime = (t, hasTime = true) => {
+export const transformDateTime = (t, hasTime = true) => {
   // 字符串类型日期转换为moment类型，moment类型的日期，无需转换
   const time = typeof t === 'string' ? moment(new Date(t)) : t;
   return time.format(hasTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
 };
-const transTime = (time, flag) => {
+export const transTime = (time, flag) => {
   switch (flag) {
     case 'start':
       return `${time} 00:00:00`;
@@ -253,33 +253,33 @@ const transTime = (time, flag) => {
 };
 
 // 校验 min-max 整数
-const isIntValue = (val, { min, max }) => {
+export const isIntValue = (val, { min, max }) => {
   const regex = new RegExp(`^[0-9]{${min},${max}}$`);
   return regex.test(val);
 };
 
 // 校验小数
-const isDecimalValue = (val) => {
+export const isDecimalValue = (val) => {
   return /^\d+(\.\d+)?$/.test(val);
 };
 
 // 校验数值
-const isNumericValue = (val) => {
+export const isNumericValue = (val) => {
   return /^[+-]?\d+(\.\d+)?$/.test(val);
 };
 
 // 校验绝对值区间
-const isAbsRangeValue = (val, { min, max }) => {
+export const isAbsRangeValue = (val, { min, max }) => {
   const value = Math.abs(val);
   return min <= value && value <= max;
 };
 
 // 校验 0 值
-const isZeroValue = (val) => {
+export const isZeroValue = (val) => {
   return Number(val) === 0;
 };
 
-const downloadLink = (url) => {
+export const downloadLink = (url) => {
   const a = document.createElement('a');
   a.href = url;
   a.download = '';
@@ -289,7 +289,7 @@ const downloadLink = (url) => {
   document.body.removeChild(a);
 };
 
-const jobStatus = {
+export const jobStatus = {
   unhandle: '1', // 未处理
   importDb: '10', // 导入数据库
   importDone: '13', // 导入完成，可以开始处理账单
@@ -297,7 +297,7 @@ const jobStatus = {
   handleDone: '30', // 处理完毕，可以开始下载明细
 };
 
-module.exports = {
+export default {
   isIdCardNumber,
   GPS,
   transformDateTime,
