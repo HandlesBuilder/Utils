@@ -2,9 +2,10 @@
  * @Author: Tser
  * @Date: 2020-03-28 22:01:28
  * @GitHub: https://github.com/TserHub
- * @LastEditors: Tser
- * @LastEditTime: 2020-04-12 17:37:17
+ * @LastEditors: qinWenMeng
+ * @LastEditTime: 2020-04-14 12:58:37
  */
+import moment from 'moment';
 
 // 身份证号码验证
 const isIdCardNumber = (idCard) => {
@@ -235,10 +236,20 @@ const GPS = {
   },
 };
 
-const transformDateTime = (t, bool = true) => {
+const transformDateTime = (t, hasTime = true) => {
   // 字符串类型日期转换为moment类型，moment类型的日期，无需转换
   const time = typeof t === 'string' ? moment(new Date(t)) : t;
-  return time.format(bool ? 'YYYY-MM-DD kk:mm:ss' : 'YYYY-MM-DD');
+  return time.format(hasTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD');
+};
+const transTime = (time, flag) => {
+  switch (flag) {
+    case 'start':
+      return `${time} 00:00:00`;
+    case 'end':
+      return `${time} 23:59:59`;
+    default:
+      return time;
+  }
 };
 
 // 校验 min-max 整数
@@ -268,13 +279,34 @@ const isZeroValue = (val) => {
   return Number(val) === 0;
 };
 
+const downloadLink = (url) => {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '';
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
+const jobStatus = {
+  unhandle: '1', // 未处理
+  importDb: '10', // 导入数据库
+  importDone: '13', // 导入完成，可以开始处理账单
+  handleBill: '15', // 开始处理账单
+  handleDone: '30', // 处理完毕，可以开始下载明细
+};
+
 module.exports = {
   isIdCardNumber,
   GPS,
   transformDateTime,
+  transTime,
   isIntValue,
   isDecimalValue,
   isNumericValue,
   isAbsRangeValue,
   isZeroValue,
+  downloadLink,
+  jobStatus,
 };
