@@ -2,17 +2,17 @@
   "name": "jser-utils",
   "version": "0.0.5",
   "description": "Provide utils for javascript.",
-  "main": "./build/main.js",
+  "main": "./lib/index.js",
   "dependencies": {
     "moment": "^2.24.0"
   },
   "devDependencies": {
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5"
   },
   "scripts": {
-    "build": "webpack --config ./config/webpack.config.js",
-    "compile": "npx babel src/ --out-dir lib",
+    "compile": "npx babel src --out-dir lib",
     "doPublish": "npm run compile && npm publish"
   },
   "keywords": [
