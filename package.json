@@ -7,19 +7,10 @@
     "compile": "npx babel src/ --out-dir lib",
     "doPublish": "npm run compile && npm publish"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TserHub/Utils.git"
-  },
   "keywords": [
     "utils",
     "javascript",
     "jser"
   ],
-  "author": "TserHub <jserhub@icloud.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/TserHub/Utils/issues"
-  },
-  "homepage": "https://github.com/TserHub/Utils#readme"
+  "license": "MIT"
 }
