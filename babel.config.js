@@ -1,11 +1,11 @@
 module.exports = {
-  presets: ['@babel/preset-env']
-  /* plugins: [
+  presets: ["@babel/preset-env"],
+  /*plugins: [
     [
-      '@babel/plugin-transform-modules-commonjs',
+      "@babel/plugin-transform-modules-commonjs",
       {
-        strictMode: false
-      }
-    ]
-  ] */
+        strictMode: true,
+      },
+    ],
+  ], */
 };
