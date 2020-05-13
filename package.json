@@ -1,6 +1,6 @@
 {
   "name": "jser-utils",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Provide utils for javascript.",
   "main": "./lib/index.js",
   "dependencies": {
