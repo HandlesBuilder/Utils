@@ -3,7 +3,7 @@
  * @Date: 2020-03-28 22:01:28
  * @GitHub: https://github.com/TserHub
  * @LastEditors: Tser
- * @LastEditTime: 2020-04-22 13:24:10
+ * @LastEditTime: 2020-05-13 11:23:43
  */
 import moment from "moment";
 
@@ -69,11 +69,18 @@ export const downloadLink = (url) => {
 };
 
 export const jobStatus = {
-  unhandle: "1", // 未处理
-  importDb: "10", // 导入数据库
-  importDone: "13", // 导入完成，可以开始处理账单
-  handleBill: "15", // 开始处理账单
-  handleDone: "30", // 处理完毕，可以开始下载明细
+  // 未处理
+  unhandle: "1",
+  // 导入数据库
+  importDb: "10",
+  // 导入完成，可以开始处理账单
+  importDone: "13",
+  // 开始处理账单
+  handleBill: "15",
+  // 处理完毕，可以开始下载明细
+  handleDone: "30",
+  // 处理完毕
+  handleOk: "100",
 };
 
 export default {
