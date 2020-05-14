@@ -3,7 +3,7 @@
  * @Date: 2020-03-28 22:01:28
  * @GitHub: https://github.com/TserHub
  * @LastEditors: Tser
- * @LastEditTime: 2020-05-13 11:23:43
+ * @LastEditTime: 2020-05-14 14:43:39
  */
 import moment from "moment";
 
@@ -58,10 +58,10 @@ export const isZeroValue = (val) => {
   return Number(val) === 0;
 };
 
-export const downloadLink = (url) => {
+export const downloadLink = (url, fileName = undefined) => {
   const a = document.createElement("a");
   a.href = url;
-  a.download = "";
+  a.download = fileName ?? "";
   a.target = "_blank";
   document.body.appendChild(a);
   a.click();
