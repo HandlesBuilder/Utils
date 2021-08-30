@@ -2,6 +2,7 @@
   "name": "jser-utils",
   "version": "0.1.0",
   "description": "Provide utils for javascript.",
+  "files":["./lib/*"],
   "main": "./lib/index.js",
   "dependencies": {
     "moment": "^2.24.0"
