@@ -1,9 +1,9 @@
 {
-  "name": "jser-utils",
-  "version": "0.1.0",
+  "name": "docker-awesome",
+  "version": "0.0.1",
   "description": "Provide utils for javascript.",
   "files": [
-    "./lib/*"
+    "lib"
   ],
   "main": "./lib/index.js",
   "dependencies": {
